@@ -11,7 +11,32 @@ config.enable_stream(rs.stream.color, 640, 480, rs.format.bgr8, 30)
 config.enable_stream(rs.stream.depth, 640, 480, rs.format.z16, 30)
 
 # 開始拍攝
-pipeline.start(config)
+profile = pipeline.start(config)
+
+# 獲取相機的內參
+# 獲取顏色流的配置文件
+color_profile = profile.get_stream(rs.stream.color)
+# 將配置文件轉換為視頻流配置文件以訪問內參
+color_intrinsics = color_profile.as_video_stream_profile().get_intrinsics()
+
+# 創建相機內參矩陣
+camera_intrinsic = np.array([
+    [color_intrinsics.fx, 0, color_intrinsics.ppx],
+    [0, color_intrinsics.fy, color_intrinsics.ppy],
+    [0, 0, 1]
+])
+
+
+print("相機內參矩陣:")
+print(camera_intrinsic)
+
+# 顯示其他內參參數
+print("\n其他相機參數:")
+print(f"型號: {color_intrinsics.model}")
+print(f"畸變係數: {color_intrinsics.coeffs}")
+print(f"寬度: {color_intrinsics.width}")
+print(f"高度: {color_intrinsics.height}")
+
 
 try:
     print("拍攝中，請稍等...")
