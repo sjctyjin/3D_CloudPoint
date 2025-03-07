@@ -1,4 +1,4 @@
-#  ICP_Yolov8偵測點雲.py : 
+#ICP_Yolov8偵測點雲.py : 
 調用pamu.pt偵測rgb_image.png中的物體，找到偵測物後將其點雲分割，並調用ICP_姿態轉換_Open3D相機視角.py 計算目標物抓取最佳姿態。
 
 #  ICP_生成抓取姿態.py : 
